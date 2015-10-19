@@ -24,8 +24,8 @@
                 loc      = item.location,
                 pay      = item.paymentMethod,
                 rtr      = item.returnsAccepted,
-                ship     = item.shippingInfo.shipToLocations,
-                price    = item.sellingStatus[i];
+                ship     = item.shippingInfo[0].shipToLocations[0],
+                price    = item.sellingStatus[0].currentPrice[0].__value__;
 
             dataFromEbay.push([pic, title, viewitem, loc, pay, rtr, ship, price]);
         }
@@ -34,7 +34,7 @@
             data: dataFromEbay,
             colHeaders: ['Picture', 'Title', 'URL', 'Location', 'Payment method', 'Returns accepted', 'Ship to locations', 'Current price'],
             columns: [
-                {data: 'picture', renderer: coverRenderer}, 'title', 'url', 'location', 'payment method','returns accepted','ship to locations', {data: 'Current price', type: 'numeric', format: '$0,0.00'}
+                {data: 'picture', renderer: coverRenderer}, 'title', 'url', 'location', 'payment method','returns accepted','ship to locations', 'current price'
             ],
             rowHeaders: true,
             fixedRowsTop: 1
@@ -62,7 +62,6 @@
 
             return td;
         }
-        console.log(dataFromEbay);
     }
 
     // Create a JavaScript array of the item filters you want to use in your request
@@ -77,19 +76,19 @@
     function  buildURLArray() {
         for(var i = 0; i < filterarray.length; i += 1) {
             var itemfilter = filterarray[i];
-              for(var index in itemfilter) {
-                  if (itemfilter[index] !== '') {
-                      if (itemfilter[index] instanceof Array) {
-                          for(var r = 0; r <itemfilter[index].length; r += 1) {
-                              var value = itemfilter[index][r];
-                              urlfilter += '&itemFilter\(' + i + '\).' + index + '\(' + r + '\)=' + value ;
-                          }
-                      }
-                      else {
-                          urlfilter += '&itemFilter\(' + i + '\).' + index + '=' + itemfilter[index];
-                      }
-                  }
-              }
+                for(var index in itemfilter) {
+                    if (itemfilter[index] !== '') {
+                        if (itemfilter[index] instanceof Array) {
+                            for(var r = 0; r <itemfilter[index].length; r += 1) {
+                                var value = itemfilter[index][r];
+                                urlfilter += '&itemFilter\(' + i + '\).' + index + '\(' + r + '\)=' + value ;
+                            }
+                        }
+                        else {
+                            urlfilter += '&itemFilter\(' + i + '\).' + index + '=' + itemfilter[index];
+                        }
+                    }
+                }
         }
     }
 
@@ -107,6 +106,8 @@
         url += '&keywords=heidegger';
         url += '&paginationInput.entriesPerPage=100';
         url += urlfilter;
+
+    console.log(url);
 
     // Submit the request
     var s = document.createElement('script');
