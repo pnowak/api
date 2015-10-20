@@ -27,17 +27,20 @@
                 ship     = item.shippingInfo[0].shipToLocations[0],
                 price    = item.sellingStatus[0].currentPrice[0].__value__;
 
-            dataFromEbay.push([pic, title, viewitem, loc, pay, rtr, ship, price]);
+            dataFromEbay.push({'picture': pic, 'title': "<a href=" + viewitem + ">" + title + "</a>", 'current price': price, 'location': loc, 'ship to locations': ship, 'payment method': pay, 'returns accepted': rtr});
         }
 
         hot = new Handsontable(container, {
             data: dataFromEbay,
-            colHeaders: ['Picture', 'Title', 'URL', 'Location', 'Payment method', 'Returns accepted', 'Ship to locations', 'Current price'],
+            colHeaders: ['Picture', 'Title', 'URL', 'Location', 'Ship to locations', 'Payment method', 'Returns accepted', 'Current price'],
             columns: [
-                {data: 'picture', renderer: coverRenderer}, 'title', 'url', 'location', 'payment method','returns accepted','ship to locations', 'current price'
+                {data: 'picture', renderer: coverRenderer}, {data: 'title', renderer: 'html'}, {data: 'current price', type: 'numeric', format: '$0,0.00'}, {data: 'location'}, {data: 'ship to locations'}, {data: 'payment method'}, {data: 'returns accepted'}
             ],
             rowHeaders: true,
-            fixedRowsTop: 1
+            fixedRowsTop: 1,
+            colWidths: [47, 47, 47, 47, 47, 47, 47, 47], 
+            stretchH: 'all',
+            contextMenu: true
         });
 
         function coverRenderer (instance, td, row, col, prop, value, cellProperties) {
@@ -106,8 +109,6 @@
         url += '&keywords=heidegger';
         url += '&paginationInput.entriesPerPage=100';
         url += urlfilter;
-
-    console.log(url);
 
     // Submit the request
     var s = document.createElement('script');
