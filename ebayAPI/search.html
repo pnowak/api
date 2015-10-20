@@ -1,8 +1,11 @@
 <html>
 <head>
     <title>eBay Search Results</title>
-    <script src="http://docs.handsontable.com/0.18.0/bower_components/handsontable/dist/handsontable.full.js"></script>
-    <link type="text/css" rel="stylesheet" href="http://docs.handsontable.com/0.18.0/bower_components/handsontable/dist/handsontable.full.min.css">
+    <script src="bower_components/handsontable/dist/handsontable.full.js"></script>
+    <script src="bower_components/handsontable/dist/moment/moment.js"></script>
+    <script src="bower_components/handsontable/dist/pikaday/pikaday.js"></script>
+    <link rel="stylesheet" media="screen" href="bower_components/handsontable/dist/handsontable.full.css">
+    <link rel="stylesheet" media="screen" href="bower_components/handsontable/dist/pikaday/pikaday.css">
 </head>
 <body>
     <h1>eBay Search Results</h1>
@@ -25,20 +28,21 @@
                 pay      = item.paymentMethod,
                 rtr      = item.returnsAccepted,
                 ship     = item.shippingInfo[0].shipToLocations[0],
-                price    = item.sellingStatus[0].currentPrice[0].__value__;
+                price    = item.sellingStatus[0].currentPrice[0].__value__,
+                endTime  = item.listingInfo[0].endTime[0];console.log(endTime);
 
-            dataFromEbay.push({'picture': pic, 'title': "<a href=" + viewitem + ">" + title + "</a>", 'current price': price, 'location': loc, 'ship to locations': ship, 'payment method': pay, 'returns accepted': rtr});
+            dataFromEbay.push({'picture': pic, 'title': "<a href=" + viewitem + ">" + title + "</a>", 'current price': price, 'location': loc, 'ship to locations': ship, 'payment method': pay, 'returns accepted': rtr, 'end time': endTime});
         }
 
         hot = new Handsontable(container, {
             data: dataFromEbay,
-            colHeaders: ['Picture', 'Title', 'URL', 'Location', 'Ship to locations', 'Payment method', 'Returns accepted', 'Current price'],
+            colHeaders: ['Picture', 'Title', 'Current price', 'Location', 'Ship to locations', 'Payment method', 'Returns accepted', 'End time'],
             columns: [
-                {data: 'picture', renderer: coverRenderer}, {data: 'title', renderer: 'html'}, {data: 'current price', type: 'numeric', format: '$0,0.00'}, {data: 'location'}, {data: 'ship to locations'}, {data: 'payment method'}, {data: 'returns accepted'}
+                {data: 'picture', renderer: coverRenderer}, {data: 'title', renderer: 'html'}, {data: 'current price', type: 'numeric', format: '$0,0.00'}, {data: 'location'}, {data: 'ship to locations'}, {data: 'payment method'}, {data: 'returns accepted'}, {data: 'end time', type: 'date', dateFormat: 'MM/DD/YYYY', correctFormat: true}
             ],
             rowHeaders: true,
             fixedRowsTop: 1,
-            colWidths: [47, 47, 47, 47, 47, 47, 47, 47], 
+            colWidths: [47, 47, 47, 47, 47, 47, 47, 47, 47], 
             stretchH: 'all',
             contextMenu: true
         });
@@ -49,7 +53,7 @@
 
             if (escaped.indexOf('http') === 0) {
                 img = document.createElement('IMG');
-                img.src = value;console.log(img);
+                img.src = value;
 
                 Handsontable.Dom.addEvent(img, 'mousedown', function (e){
                     e.preventDefault(); // prevent selection quirk
