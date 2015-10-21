@@ -16,14 +16,14 @@ function findItemsByKeywords(root) {
             price    = item.sellingStatus[0].currentPrice[0].__value__,
             endTime  = item.listingInfo[0].endTime[0];
 
-        dataFromEbay.push({'picture': pic, 'title': "<a href=" + viewitem + ">" + title + "</a>", 'current price': price, 'location': loc, 'ship to locations': ship, 'payment method': pay, 'returns accepted': rtr, 'end time': endTime});
+        dataFromEbay.push({'picture': pic, 'title': "<a href=" + viewitem + ">" + title + "</a>", 'current price': price, 'location': loc, 'ship to locations': ship, 'payment method': pay, 'returns accepted': rtr, 'end time': new Date(endTime).toLocaleDateString()});
     }
 
     hot = new Handsontable(container, {
         data: dataFromEbay,
         colHeaders: ['Picture', 'Title', 'Current price', 'Location', 'Ship to locations', 'Payment method', 'Returns accepted', 'End time'],
         columns: [
-            {data: 'picture', renderer: coverRenderer}, {data: 'title', renderer: 'html'}, {data: 'current price', type: 'numeric', format: '$0,0.00'}, {data: 'location'}, {data: 'ship to locations'}, {data: 'payment method'}, {data: 'returns accepted'}, {data: 'end time', type: 'date', dateFormat: 'MM/DD/YYYY', correctFormat: true}
+            {data: 'picture', renderer: coverRenderer}, {data: 'title', renderer: 'html'}, {data: 'current price', type: 'numeric', format: '$0,0.00'}, {data: 'location'}, {data: 'ship to locations'}, {data: 'payment method'}, {data: 'returns accepted'}, {data: 'end time'}
         ],
         rowHeaders: true,
         fixedRowsTop: 1,
