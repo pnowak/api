@@ -1,48 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-	    
+	    <title>YouTube channel</title>
+	    <link rel="stylesheet" media="screen" href="./bower_components/bootstrap/dist/css/bootstrap.css">  
     </head>
     <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="table-responsive">
+                	<table id="table" class="table col-md-9">
+                        <caption id="caption"></caption>
+                        <thead>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Video</th>
+                            <th>Description</th>
+                            <th>Published</th>
+                        </thead>
+                        <tbody id="body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
 	    <pre id="response"></pre>
-	    <script>
-			// Helper function to display JavaScript value on HTML page.
-			function showResponse(response) {
-			    var responseString = JSON.stringify(response, '', 2);console.log(responseString)
-			    document.getElementById('response').innerHTML += responseString;
-			}
 
-			// Called automatically when JavaScript client library is loaded.
-			function onClientLoad() {
-			    gapi.client.load('youtube', 'v3', onYouTubeApiLoad);
-			}
-
-			// Called automatically when YouTube API interface is loaded (see line 9).
-			function onYouTubeApiLoad() {
-			    // This API key is intended for use only in this lesson.
-			    // See https://goo.gl/PdPA1 to get a key for your own applications.
-			    gapi.client.setApiKey('AIzaSyCxyvBivWH6gIWtRhKiaUQq7pUusge-5gw');
-			    search();
-			}
-
-			function search() {
-			    // Use the JavaScript client library to create a search.list() API call.
-			    var request = gapi.client.youtube.search.list({
-			        part: 'snippet',
-			        q: 'chopin',
-			        'channelId': 'UCSTXol20Q01Uj-U5Yp3IqFg'
-			    });
-			    // Send the request to the API server,
-			    // and invoke onSearchRepsonse() with the response.
-			    request.execute(onSearchResponse);
-			}
-
-			// Called automatically with the response of the YouTube API request.
-			function onSearchResponse(response) {
-			    showResponse(response);
-			}
-
-	    </script>
+	    <script src="js/channel.js"></script>
 	    <script src="https://apis.google.com/js/client.js?onload=onClientLoad"></script>
   </body>
     </body>
