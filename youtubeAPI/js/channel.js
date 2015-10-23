@@ -5,9 +5,11 @@ function showResponse(response) {
         body = document.getElementById('body'),
         caption = document.getElementById('caption'),
         v = 'https://www.youtube.com/embed/',
-        i, len, item, tr, td, iframe;
+        i, len, item, fragm, tr, td, iframe;
 
     caption.appendChild(document.createTextNode(items[0].snippet.channelTitle));
+
+    fragm = document.createDocumentFragment();
 
     for (i = 0, len = items.length; i < len; i += 1) {
         item = items[i];
@@ -39,8 +41,10 @@ function showResponse(response) {
         td.appendChild(document.createTextNode(new Date(items[i].snippet.publishedAt).toLocaleDateString()));
         tr.appendChild(td);
         
-        body.appendChild(tr);
+        fragm.appendChild(tr);
     }
+
+    body.appendChild(fragm);
 }
 
 // Called automatically when JavaScript client library is loaded.
